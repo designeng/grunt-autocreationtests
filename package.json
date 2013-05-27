@@ -2,7 +2,7 @@
   "author": "Denis Savenok",
   "name": "grunt-autocreationtests",
   "description": "Create tests from js-files for usage in requirejs projects",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "",
   "repository": {
     "type": "git",
@@ -30,7 +30,6 @@
     "grunt-exec": "~0.4.0",
     "grunt-contrib-livereload": "~0.1.2",
     "grunt-contrib-clean": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.1",
-    "traverse": "~0.6.3"
+    "grunt-contrib-copy": "~0.4.1"
   }
 }
