@@ -4,7 +4,7 @@
   },
   "name": "grunt-autocreationtests",
   "description": "Create tests from js-files for usage in requirejs projects",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "",
   "repository": {
     "type": "git",
