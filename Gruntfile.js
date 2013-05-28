@@ -1,5 +1,5 @@
 /*
- * grunt-cssfromhtml
+ * grunt-autocreationtests
  * 
  *
  * Copyright (c) 2013 Denis Savenok
@@ -8,6 +8,9 @@
 
 'use strict';
 
+var path = require('path');
+
+
 module.exports = function (grunt) {
 
     grunt.initConfig({
@@ -15,7 +18,8 @@ module.exports = function (grunt) {
           js: {
             files: ['app/scripts/*.js', 'app/scripts/**/*.js', 'app/scripts/**/**/*.js', 'app/scripts/**/**/**/*.js'],
             //tasks: ['copy', 'clean', 'autocreationtests']
-            tasks: ['copy', 'clean', 'parsejs']
+            //tasks: ['copy', 'clean', 'autocreationtests']
+            tasks: ['autocreationtests']
           }
         },
 
@@ -24,13 +28,23 @@ module.exports = function (grunt) {
                     src: "app/scripts/ui.components/calendar/routeChooser.js"
                 }
         },
-
-        parsejsesmorph: {
+        //for testing
+        connect: {
+          testing: {
+            options: {
+                port: 8877,
+                base: '.'
+            }
+          }
+        }
+/*
+        autocreationtests: {
                 multiple: {
-                    src: "app/scripts/ui.components/calendar/routeChooser.js"
+                    src: "app/scripts/ui.components/calendar/routeChooser.js",
+                    specIndex: "test/spec/index.js"
                 }
         }
-
+*/
     });
 
     // Actually load this plugin's task(s).
@@ -41,14 +55,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-regarde');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-template');
 
     //grunt.registerTask('default', ['autocreationtests', 'regarde']);
 
-    grunt.registerTask('default', ['parsejs']);
+    //grunt.registerTask('default', ['parsejs']);
 
-    grunt.registerTask('r', ['regarde']);//основное, default надо подредактировать
+    grunt.registerTask('r', ['connect', 'regarde']);//основное, default надо подредактировать
 
-    grunt.registerTask('e', ['parsejsesmorph']);//parse with esmorph, create tests
+    grunt.registerTask('default', ['autocreationtests']);//parse with esmorph, create tests
 
     
 
@@ -65,17 +80,23 @@ module.exports = function (grunt) {
 
         srcScripts.push(changedFilePath);//push to array, which is the value of parsejs.multiple.src
 
-        var templateDir = 'app/templates',
-            stylesBaseDir = "app/styles/less",
-            fileExtention = "js",
-            destForCopyTask = 'copiedCss/',
+        var fileExtention = "js",
+            destForCopyTask = 'copiedSpec/',
             editor = "Sublime Text 2";
 
-        relativePath = changedFilePath.replace(templateDir, "");
-        relativePath = stylesBaseDir + relativePath;
+        var scriptsBaseDir = "app/scripts",
+            specBaseDir = "test/spec",
+            specPrefix = "spec",
+            specIndexJs = "test/SpecIndex.js",
+            specTemplate = "templates/spec.js";
+
+        relativePath = changedFilePath.replace(scriptsBaseDir, "");
+        //relativePath = specBaseDir + relativePath;
         lastIndex = relativePath.lastIndexOf(".");
         relativePath = relativePath.substr(0, lastIndex);
         relativePath = relativePath + "." + fileExtention;
+
+        console.log("relativePath: " + relativePath)
 
         filesToCopy.push(relativePath);
         filesToDelete.push(relativePath);
@@ -94,23 +115,15 @@ module.exports = function (grunt) {
                     tests: filesToDelete
             },
 
-            parsejs: {
+            autocreationtests: {
                 multiple: {
                     src: srcScripts,
                     changedFilePath: changedFilePath,
-                    templateDir: templateDir,
-                    stylesBaseDir: stylesBaseDir, //here must be saved created .css with the same path structure as the source html-template file 
-                    editor: editor,
-                    openfile: true  //open file with editor?
-                }
-            },
-
-            cssfromhtml: {
-                multiple: {
-                    src: srcScripts,
-                    changedFilePath: changedFilePath,
-                    templateDir: templateDir,
-                    stylesBaseDir: stylesBaseDir, //here must be saved created .css with the same path structure as the source html-template file 
+                    specBaseDir: specBaseDir,
+                    specIndex: specIndexJs, //here's must be listed all incoming tests (the same path structure as the source .js file)
+                    specPrefix: specPrefix,
+                    relativePath: relativePath, //computed relative path
+                    specTemplate: specTemplate,
                     editor: editor,
                     openfile: true  //open file with editor?
                 }

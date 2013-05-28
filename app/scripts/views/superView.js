@@ -1,18 +1,18 @@
+/* @CreateTests */
 define([
 	'backbone', 
 	'underscore', 
 	'marionette', 
 	'Handlebars', 
 	'vent', 
-	'hbars!../../templates/message',
 	'i18n!nls/general'
-	], function(Backbone, _, Marionette, Handlebars, vent, ExtendedTemplate, localizedText) {
+	], function(Backbone, _, Marionette, Handlebars, vent,  localizedText) {
 
     'use strict';
 
-    var ExtendedTemplateParamsView = Marionette.ItemView.extend({
+    var superView = Marionette.ItemView.extend({
 
-	    template: ExtendedTemplate,
+	    template: "<div>Exmple</div>",
 
 	    render: function() {	    	
 	    	
@@ -25,8 +25,26 @@ define([
 	        this.delegateEvents();
 
 	        return this;
+	    },
+
+	    onShow: function() {	    	
+	    	
+	        console.log("onShow")
+
+	        return this;
+	    },
+
+	    onClose: function() {
+
+	        return this;
+	    },
+
+	    onChange: function() {
+
+	        return this;
 	    }
-	});
+	});		
+
     
-    return ExtendedTemplateParamsView;
+    return superView;
 });

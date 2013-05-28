@@ -1,29 +1,27 @@
-define(['backbone',
-        'marionette', 
-        'underscore', 
-        'ui.components/combobox/combobox',
-        'ui.components/calendar/routeChooser', 
-        'views/structureView',
-        'vent'], 
-    function(Backbone, Marionette, _, Combobox,  RouteChooser, StructureView, vent) {
+define(['backbone', 'marionette', 'underscore', 'views/extendedTemplateParamsView', 'vent'], function(Backbone, Marionette, _, ExtendedTemplateParamsView, vent) {
     'use strict';
 
-    var app = new Marionette.Application(),
-    combobox,
-    routeChooser;   
+    var app = new Marionette.Application();
+
+    var test = function(){
+        return "123";
+    }
+
+    app.test = test;
+    
 
     // these regions correspond to #ID's in the index.html 
     app.addRegions({
         content: "#content",
-        view: "#view"
+        menu: "#menu"
     });
 
     // marionette app events...
     app.on("initialize:after", function() {
+        console.log('initialize:after');
         Backbone.history.start();
     });
 
-    
     
     // pass in router/controller via options
     app.addInitializer(function(options) {
@@ -43,21 +41,14 @@ define(['backbone',
 
             return template;
         };
-
     }); 
 
     app.addInitializer(function () {
-            
-            combobox = new Combobox({
-                //model: {qwerty: "12345657"}
-            }); 
-
-             
-
-            routeChooser = new RouteChooser({});  
-
-            this.content.show(routeChooser);
+        this.content.show(new ExtendedTemplateParamsView({
+            model: {author:"Derick Bailey", date:"2013"}
+        }));
     });
+    
 
     // export the app
     return app;

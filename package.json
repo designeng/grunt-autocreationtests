@@ -1,5 +1,7 @@
 {
-  "author": "Denis Savenok",
+  "author": {
+    "name": "Denis Savenok"
+  },
   "name": "grunt-autocreationtests",
   "description": "Create tests from js-files for usage in requirejs projects",
   "version": "0.0.4",
@@ -13,6 +15,8 @@
   },
   "scripts": {},
   "dependencies": {
+    "prompt": "~0.1.12",
+    "colors": "",
     "connect": "~2.7.6",
     "grunt": "~0.4.1",
     "grunt-contrib-concat": "~0.1.2",
@@ -24,6 +28,8 @@
     "grunt-regarde": "~0.1.1",
     "esprima": "",
     "traverse": "",
+    "underscore": "",
+    "async": "",
     "utils": ""
   },
   "devDependencies": {
@@ -31,6 +37,11 @@
     "grunt-exec": "~0.4.0",
     "grunt-contrib-livereload": "~0.1.2",
     "grunt-contrib-clean": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.1"
-  }
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-template": "~0.1.0"
+  },
+  "readme": "## Grunt autocreationtests task\n\nin progress",
+  "readmeFilename": "README.md",
+  "_id": "grunt-autocreationtests@0.0.4",
+  "_from": "grunt-autocreationtests@"
 }

@@ -1,45 +1,46 @@
 require.config({
-  baseUrl: "/app/js",
+  baseUrl: "/app/scripts",
   urlArgs: 'cb=' + Math.random(),
   paths: {
-    jquery: 'lib/jquery.min',
-    underscore: 'lib/underscore',
-    backbone: 'lib/backbone',
-    'backbone.eventbinder': 'lib/backbone.eventbinder', // amd version
-    'backbone.babysitter': 'lib/backbone.babysitter', // amd version
-    marionette: 'lib/backbone.marionette',  // amd version
-    'backbone.wreqr': 'lib/backbone.wreqr', // amd version
-    text: 'lib/requirejs-text/text',
-    i18n: 'lib/i18n',
+        jquery: 'vendors/jquery.min',  // amd version
+        underscore: 'vendors/underscore', // amd version
+        backbone: 'vendors/backbone', // amd version        
+        'backbone.eventbinder': 'vendors/backbone.eventbinder', // amd version
+        'backbone.babysitter': 'vendors/backbone.babysitter', // amd version
+        marionette: 'vendors/backbone.marionette',  // amd version
+        'backbone.wreqr': 'vendors/backbone.wreqr', // amd version
+        Handlebars: 'vendors/handlebars',
+        text: 'vendors/requirejs-text/text',
+        hbars: 'vendors/hbars',
+        tpl: 'vendors/tpl',
+        templates: 'templates', //just for register here        
+        'handlebars.helpers': 'helpers/handlebars.helpers',
+        i18n: 'vendors/i18n'
+    },
 
-    spec: '../../test/spec/'
-  },
-  /*
-  shim: {
-    backbone: {
-      deps: ['underscore', 'jquery'],
-      exports: 'Backbone'
-    }
-  }
-  */
-
-  shim: {        
-        'backbone': {
-            //These script dependencies should be loaded before loading
-            //backbone.js
+    // load the 'non AMD' versions of backbone, underscore and Marionette
+    shim: {        
+        backbone: {
             deps: ['underscore', 'jquery'],
             //Once loaded, use the global 'Backbone' as the
             //module value.
             exports: 'Backbone'
         },
-        marionette: ['backbone']
+        marionette: ['backbone'],
+
+        Handlebars: {
+            exports: 'Handlebars'
+        },
+        
+        'handlebars.helpers': ['Handlebars']
     },
     locale: function(){
         return "ru";
     }()
 });
 
-require(['jquery', 'spec/index'], function($, index) {
+//index.js - list with runing specs
+require(['jquery', 'SpecIndex.js'], function($, index) {
   var jasmineEnv = jasmine.getEnv(),
       htmlReporter = new jasmine.HtmlReporter();
 

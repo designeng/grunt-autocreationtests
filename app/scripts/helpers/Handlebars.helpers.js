@@ -1,59 +1,35 @@
-define([
-		'underscore',
-		'Handlebars'
-	], function(_, Handlebars){
-
-	/**
-	 * Helper for i18n support for Handlebars 
-	 */
-	Handlebars.registerHelper('_', function(text){
-		if(arguments.length > 2){
-			var str = arguments[0],
-				params = _.toArray(arguments).slice(1,-1),
-				param;
-			while(str.indexOf("%s") != -1){
-				param = params.length==1 ? params[0] : params.shift();
-				str = str.replace(/%s/, param);
-			}
-			text = str;
-		}else{
-			//@TODO
-			//Get string from lang config (scripts/lang/)
+/**
+ * Helper for i18n support for Handlebars 
+ */
+Handlebars.registerHelper('_', function(text){
+	if(arguments.length > 2){
+		var str = arguments[0],
+			params = _.toArray(arguments).slice(1,-1),
+			param;
+		while(str.indexOf("%s") != -1){
+			param = params.length==1 ? params[0] : params.shift();
+			str = str.replace(/%s/, param);
 		}
-		return text;
-	});
+		text = str;
+	}else{
+		//@TODO
+		//Get string from lang config (scripts/lang/)
+	}
+	return text;
+});
 
-	Handlebars.registerHelper("key_value", function(obj, fn) {
-        var buffer = "",
-            key;
-     
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                buffer += fn({key: key, value: obj[key]});
-            }
-        }
-     
-        return buffer;
-    });
-
-	// usage: {{toLowerCase someString}}
-	Handlebars.registerHelper('toLowerCase', function(value) {
-        return (value && _.isString(value)) ? value.toLowerCase() : '';
-    });
-
-	// usage: {{debug}} or {{debug someValue}}
-    Handlebars.registerHelper("debug", function(optionalValue, options) {
-	     console.group("Handlebar Debug:");	     
-	     if (_.isObject(optionalValue) && _.isObject(optionalValue.hash)) {
-	       // this means that the {{debug}} was called without params
-	       console.log(this);
-	     }
-	     else {
-	       console.log(optionalValue);
-	     }
-	     console.groupEnd();
-    });
-
-
-
-})
+/**
+* Helper for declation support for Handlebars
+* sample {{_decl 123 '["day","day","days"]'}}
+*/
+Handlebars.registerHelper('_decl', function(num, formsJSON) {
+	formsJSON = Handlebars.helpers._(formsJSON);
+	var forms = JSON.parse(formsJSON);
+	if(num % 10 == 1 && num % 100 != 11) {
+		return forms[0];
+	} else if ((num % 10 >= 2) && (num % 10 <= 4) && (num % 100 < 10 || num % 100 >= 20)) {
+		return forms[1];
+	} else {
+		return forms[2];
+	}
+});

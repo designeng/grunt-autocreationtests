@@ -49,7 +49,6 @@ define(['text', 'Handlebars'], function (text, Handlebars) {
             } else {
                 var ext = (config.hbars && config.hbars.extension) || '.html';
                 //text.load(config.hbars.templateUrl + "/" + moduleName + ext, parentRequire, function (source) {
-
                 text.load(moduleName + ext, parentRequire, function (source) {
                     if (config.isBuild) {
                         sourceMap[moduleName] = source;
