@@ -64,7 +64,6 @@ module.exports = function (grunt) {
                     if(func.name === "[Anonymous]" && func.exit !== null && func.exit.argument.type === 'Identifier'){
                         requireJsModuleObject = func.exit.argument.name;
                     } else{
-                        console.log("NAME: ", func.name)
                         expectations += "\t\texpect(t." + func.name + ")." + "\n";
                     }
 
@@ -209,7 +208,6 @@ module.exports = function (grunt) {
                         }
 
                         //and create new spec
-                        console.log("SUBJECT:", subject);
                         createSpec(f.specTemplate, specPathToBeCreated, subject);
                     }
                   done();
